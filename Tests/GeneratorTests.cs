@@ -68,6 +68,15 @@ namespace Tests
         }
 
         [Test]
+        public void Generator_GenerateSeries_MultipleMatchingRulesWillAppend()
+        {
+            var generator = new Generator(new[] { new SimpleMappingRule(1, "Foo"), new SimpleMappingRule(1, "Bar") });
+            var series = generator.GenerateSeries(1);
+
+            Assert.AreEqual("FooBar", series.Single());
+        }
+
+        [Test]
         public void Generator_NullArgumentToConstructorShouldThrowException()
         {
             Assert.Catch<ArgumentNullException>(() =>
