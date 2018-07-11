@@ -77,12 +77,29 @@ namespace Tests
         }
 
         [Test]
-        public void Generator_NullArgumentToConstructorShouldThrowException()
+        public void Generator_Constructor_NullArgumentShouldThrowException()
         {
             Assert.Catch<ArgumentNullException>(() =>
             {
                 var generator = new Generator(null);
             });
+        }
+
+        [Test]
+        public void Generator_Constructor_MappingRulesIncludingANullShouldThrowException()
+        {
+            Assert.Catch<ArgumentException>(() =>
+            {
+                var generator = new Generator(new IMappingRule[] { null });
+            });
+        }
+
+        [Test]
+        public void Generator_Constructor_CustomerMappingRuleWithAZeroWhatWillHappen()
+        {
+            var generator = new Generator(new[] { new SimpleMappingRule(0, "Test" ) });
+            var series = generator.GenerateSeries(5)
+                .ToArray(); // to force enumerator resolution
         }
     }
 }

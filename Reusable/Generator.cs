@@ -16,7 +16,10 @@ namespace Reusable
 
         public Generator(IEnumerable<IMappingRule> mappingRules)
         {
-            this.mappingRules = mappingRules ?? throw new ArgumentNullException(nameof(mappingRules));
+            if (mappingRules == null) throw new ArgumentNullException(nameof(mappingRules));
+            if (mappingRules.Any(x => x == null)) throw new ArgumentException("At least one of the supplied mapping rules was null.", nameof(mappingRules));
+
+            this.mappingRules = mappingRules;
         }
 
         public IEnumerable<string> GenerateSeries(int upperBound = 100)
@@ -58,6 +61,8 @@ namespace Reusable
 
         public SimpleMappingRule(int divisibleBy, string word)
         {
+            if (divisibleBy == 0) throw new ArgumentOutOfRangeException(nameof(divisibleBy), "Cannot be 0. That will cause divide by zero errors. What are you trying to do?!?");
+
             this.divisibleBy = divisibleBy;
             this.word = word;
         }
