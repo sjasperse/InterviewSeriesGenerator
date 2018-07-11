@@ -16,7 +16,7 @@ namespace Reusable
 
         public Generator(IEnumerable<IMappingRule> mappingRules)
         {
-            this.mappingRules = mappingRules;
+            this.mappingRules = mappingRules ?? throw new ArgumentNullException(nameof(mappingRules));
         }
 
         public IEnumerable<string> GenerateSeries(int upperBound = 100)

@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using NUnit.Framework;
 using Reusable;
 
@@ -64,6 +65,15 @@ namespace Tests
             Assert.AreEqual("Bar", series.ElementAt(5 - 1));
             Assert.IsTrue(series.ElementAt(15 - 1).Contains("Foo"));
             Assert.IsTrue(series.ElementAt(15 - 1).Contains("Bar"));
+        }
+
+        [Test]
+        public void Generator_NullArgumentToConstructorShouldThrowException()
+        {
+            Assert.Catch<ArgumentNullException>(() =>
+            {
+                var generator = new Generator(null);
+            });
         }
     }
 }
