@@ -95,11 +95,14 @@ namespace Tests
         }
 
         [Test]
-        public void Generator_Constructor_CustomerMappingRuleWithAZeroWhatWillHappen()
+        public void SimpleMappingRule_Constructor_DivisorOfZeroShouldScoldDeveloper()
         {
-            var generator = new Generator(new[] { new SimpleMappingRule(0, "Test" ) });
-            var series = generator.GenerateSeries(5)
-                .ToArray(); // to force enumerator resolution
+            Assert.Catch<ArgumentOutOfRangeException>(() =>
+            {
+                var generator = new Generator(new[] { new SimpleMappingRule(0, "Test") });
+                var series = generator.GenerateSeries(5)
+                    .ToArray(); // to force enumerator resolution
+            });
         }
     }
 }
