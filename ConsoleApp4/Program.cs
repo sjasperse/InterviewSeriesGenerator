@@ -12,7 +12,7 @@ namespace ConsoleApp4
         static void Main(string[] args)
         {
             var generator = new Generator();
-            var series = generator.GetNumberEnumerable(100);
+            var series = generator.GenerateSeries(100);
 
             foreach (var i in series)
             {

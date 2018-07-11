@@ -8,29 +8,68 @@ namespace Reusable
 {
     public class Generator
     {
-        public IEnumerable<string> GetNumberEnumerable(int upperBound = 100)
+        private readonly IEnumerable<IMappingRule> mappingRules;
+
+        public Generator()
+            : this(new [] { new SimpleMappingRule(3, "Fizz"), new SimpleMappingRule(5, "Buzz") })
+        { }
+
+        public Generator(IEnumerable<IMappingRule> mappingRules)
         {
-            for (int i = 1; i <= 100; i++)
+            this.mappingRules = mappingRules;
+        }
+
+        public IEnumerable<string> GenerateSeries(int upperBound = 100)
+        {
+            for (int i = 1; i <= upperBound; i++)
             {
                 var result = "";
-                if (i % 5 == 0 || i % 3 == 0)
+                var hasMatch = false;
+
+                foreach (var rule in mappingRules)
                 {
-                    if (i % 3 == 0)
+                    if (rule.IsApplicable(i))
                     {
-                        result += "Fizz";
-                    }
-                    if (i % 5 == 0)
-                    {
-                        result += "Buzz";
+                        hasMatch = true;
+                        result += rule.ReplacementText(i);
                     }
                 }
-                else
+
+                if (!hasMatch)
                 {
                     result = i.ToString();
                 }
 
                 yield return result;
             }
+        }
+    }
+
+    public interface IMappingRule
+    {
+        bool IsApplicable(int i);
+        string ReplacementText(int i);
+    }
+
+    public class SimpleMappingRule : IMappingRule
+    {
+        private readonly int divisibleBy;
+        private readonly string word;
+
+        public SimpleMappingRule(int divisibleBy, string word)
+        {
+            this.divisibleBy = divisibleBy;
+            this.word = word;
+        }
+
+        public bool IsApplicable(int i)
+        {
+            return i % divisibleBy == 0;
+        }
+
+        public string ReplacementText(int i)
+        {
+            return word;
         }
     }
 }
