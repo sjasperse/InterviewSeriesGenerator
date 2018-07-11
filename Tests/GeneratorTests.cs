@@ -11,12 +11,13 @@ namespace Tests
         public void Generator_Generate_MultiplesOf15WillShowFizzBuzz()
         {
             var max = 100;
+            var interval = 15;
             var generator = new Generator();
             var series = generator.GetNumberEnumerable(100);
 
-            for (int i = 1; i < max; i += 15)
+            for (int i = interval; i < max; i += interval)
             {
-                Assert.AreEqual(series.ElementAt(i), 0);
+                Assert.AreEqual("FizzBuzz", series.ElementAt(i - 1));
             }
         }
     }
